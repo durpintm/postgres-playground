@@ -23,20 +23,38 @@ const client = new Client({
 
 // createUsersTable();
 
-async function insertData() {
+// Not secure
+// async function insertData() {
+//   try {
+//     await client.connect();
+
+//     const insertQuery =
+//       "insert into users (username, email, password) values ('username', 'user@gmail.com', 'password')";
+
+//     const res = await client.query(insertQuery);
+//     console.log("Insertion success", res);
+//   } catch (err) {
+//     console.log("Error during insert ", err);
+//   } finally {
+//     await client.end(); // Close the connection
+//   }
+// }
+
+// insertData();
+
+async function insertData(username: string, email: string, password: string) {
   try {
     await client.connect();
-
     const insertQuery =
-      "insert into users (username, email, password) values ('username', 'user@gmail.com', 'password')";
-
-    const res = await client.query(insertQuery);
-    console.log("Insertion success", res);
+      "insert into users (username, email, password) values ($1, $2, $3)";
+    const values = [username, email, password];
+    const res = await client.query(insertQuery, values);
+    console.log("Insertion success: ", res);
   } catch (err) {
-    console.log("Error during insert ", err);
+    console.error("Error during the insertion: ", err);
   } finally {
-    await client.end(); // Close the connection
+    await client.end();
   }
 }
 
-insertData();
+insertData("durpin", "durpin@gmail.com", "Password123").catch(console.error);
