@@ -13,6 +13,7 @@ datasource db {
   url      = "postgresql://testdb_owner:ISVRHQX01kBf@ep-black-sun-a5jk9tmv.us-east-2.aws.neon.tech/testdb?sslmode=require"
 }
 
+// cmd: psql -h {hostName} -d {database} -U {username}
 
 model User{
   id Int @id @default(autoincrement())
@@ -20,4 +21,12 @@ model User{
   firstname String?
   lastname String?
   password String
+}
+
+model Todo{
+  id Int @id @default(autoincrement())
+  title String
+  done Boolean @default(false)
+  description String?
+  userId Int
 }
